@@ -1,5 +1,6 @@
 import React, { Component, useState } from 'react'
 import mojs from '@mojs/core';
+import _ from "lodash";
 import './Sidebar.css'
 
 export default class Sidebar extends Component {
@@ -8,11 +9,14 @@ export default class Sidebar extends Component {
 
     this.state = {
       isToggleOpen: false,
+      isHoverOn: false,
       posts: [],      
       comments: []    
     };
-
     this.Player = this.Player.bind(this);
+    this.HoverOn = this.HoverOn.bind(this);
+    this.HoverOff = this.HoverOff.bind(this);
+    
   }
 
   Player(e){
@@ -39,6 +43,38 @@ export default class Sidebar extends Component {
     console.log(this.state.isToggleOpen)
   }
 
+  HoverOn(element){
+    
+    _.throttle(()=>{
+      this.setState(state => ({      
+        onHover: !state.isHoverOn
+      }));
+    }, 200);
+
+    console.log("onHover")
+      new mojs.Html({
+        el: element,
+        width: { 200: 300 },
+        easing: 'quart.out',
+      }).play();
+  }
+
+  HoverOff(element){
+    
+    _.throttle(()=>{
+      this.setState(state => ({      
+        onHover: !state.isHoverOn
+      }));
+    }, 200);
+
+    console.log("offHover")
+    new mojs.Html({
+      el: element,
+      width: { 300: 200 },
+      easing: 'quart.out',
+    }).play();
+  }
+
   componentDidMount() {
 
   }
@@ -50,6 +86,16 @@ export default class Sidebar extends Component {
       <>
         <button onClick={(e)=>this.Player(e)}>Sidebar</button>
         <button onClick={(e)=>this.Player(e)}>Sidebar</button>
+        <section className="card" ref={ref => (this.item = ref)}
+          onMouseEnter={_.debounce(()=>this.HoverOn(this.item))}
+          onMouseLeave={_.debounce(()=>this.HoverOff(this.item))}
+        />
+        <p>Heasdf asdf asdf asdf asdf asfd as dfas</p>
+        <section className="card" ref={ref => (this.item = ref)}
+          onMouseEnter={_.debounce(()=>this.HoverOn(this.item))}
+          onMouseLeave={_.debounce(()=>this.HoverOff(this.item))}
+        />
+        <p>Heasdf asdf asdf asdf asdf asfd as dfas</p>
       </>
     )
   }

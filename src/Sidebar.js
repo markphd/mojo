@@ -1,78 +1,70 @@
 import React, { Component, useState } from 'react'
 import mojs from '@mojs/core';
-import _ from "lodash";
 import './Sidebar.css'
 
 export default class Sidebar extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      isToggleOpen: false,
       isHoverOn: false,
-      posts: [],      
-      comments: []    
+      isPlaying: false
     };
-    this.Player = this.Player.bind(this);
     this.HoverOn = this.HoverOn.bind(this);
     this.HoverOff = this.HoverOff.bind(this);
-    
-  }
-
-  Player(e){
-    // const htmlComponent = 
-    // });
-    e.preventDefault();
-
-    this.setState(state => ({      
-      isToggleOpen: !state.isToggleOpen    
-    }));
-
-    if(!this.state.isToggleOpen === true){
-      console.log("play")
-      new mojs.Html({
-        el: '#sidebar',
-        x: { 0: 600, duration: 600, easing: 'quart.inout'}
-      }).play()
-    } else {
-      new mojs.Html({
-        el: '#sidebar',
-        x: { 600: 0, duration: 600, easing: 'quart.inout'}
-      }).play()
-    }
-    console.log(this.state.isToggleOpen)
   }
 
   HoverOn(element){
-    
-    _.throttle(()=>{
-      this.setState(state => ({      
-        onHover: !state.isHoverOn
-      }));
-    }, 200);
+    const that = this;
+    const fromWidth = element.style.width;
+    const toWidth = `${parseInt(element.style.width, 10) + 100}`;
+    console.log(toWidth)
 
-    console.log("onHover")
+    if(!this.state.isPlaying === true && !this.state.isHoverOn === true){
       new mojs.Html({
         el: element,
-        width: { 200: 300 },
+        width: { fromWidth: toWidth, duration: 200, 
+          onStart(){
+            that.setState(state => ({      
+              isPlaying: !state.isPlaying
+            }))
+            console.log(that.state.isPlaying, "hoverOn start")
+          }, 
+          onComplete(){
+            that.setState(state => ({      
+              isPlaying: !state.isPlaying,
+              isHoverOn: !state.isHoverOn
+            }))
+            console.log(that.state.isPlaying, "hoverOn done")
+          }, 
+        },
         easing: 'quart.out',
       }).play();
+    }
   }
 
   HoverOff(element){
-    
-    _.throttle(()=>{
-      this.setState(state => ({      
-        onHover: !state.isHoverOn
-      }));
-    }, 200);
-
-    console.log("offHover")
-    new mojs.Html({
-      el: element,
-      width: { 300: 200 },
-      easing: 'quart.out',
-    }).play();
+    const that = this;
+    if(!this.state.isPlaying === true && !this.state.isHoverOn === false){
+      new mojs.Html({
+        el: element,
+        width: { 300: 200, duration: 200, 
+          onStart(){
+            that.setState(state => ({      
+              isPlaying: !state.isPlaying
+            }))
+            console.log(that.state.isPlaying, "hoverOff start")
+          }, 
+          onComplete(){
+            that.setState(state => ({      
+              isPlaying: !state.isPlaying,
+              isHoverOn: !state.isHoverOn
+            }))
+            console.log(that.state.isPlaying, "hoverOff done")
+          }, 
+        },
+        easing: 'quart.out',
+      }).play();
+    }
   }
 
   componentDidMount() {
@@ -81,19 +73,13 @@ export default class Sidebar extends Component {
   componentWillUnmount() {
 
   }
+
   render() {
     return (
       <>
-        <button onClick={(e)=>this.Player(e)}>Sidebar</button>
-        <button onClick={(e)=>this.Player(e)}>Sidebar</button>
         <section className="card" ref={ref => (this.item = ref)}
-          onMouseEnter={_.debounce(()=>this.HoverOn(this.item))}
-          onMouseLeave={_.debounce(()=>this.HoverOff(this.item))}
-        />
-        <p>Heasdf asdf asdf asdf asdf asfd as dfas</p>
-        <section className="card" ref={ref => (this.item = ref)}
-          onMouseEnter={_.debounce(()=>this.HoverOn(this.item))}
-          onMouseLeave={_.debounce(()=>this.HoverOff(this.item))}
+          onMouseEnter={()=>this.HoverOn(this.item)}
+          onMouseLeave={()=>this.HoverOff(this.item)}
         />
         <p>Heasdf asdf asdf asdf asdf asfd as dfas</p>
       </>

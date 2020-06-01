@@ -15,6 +15,8 @@ export default class Toggle extends Component {
     this.Player = this.Player.bind(this);
   }
 
+
+
   Player(e){
     // const htmlComponent = 
     // });

@@ -14,32 +14,8 @@ export default class Sidebar extends Component {
   }
 
   HoverOn(element){
-    const that = this;
-    const fromWidth = element.style.width;
-    const toWidth = `${parseInt(element.style.width, 10) + 100}`;
-    console.log(toWidth)
-
-    if(!this.state.isPlaying === true && !this.state.isHoverOn === true){
-      new mojs.Html({
-        el: element,
-        width: { fromWidth: toWidth, duration: 200, 
-          onStart(){
-            that.setState(state => ({      
-              isPlaying: !state.isPlaying
-            }))
-            console.log(that.state.isPlaying, "hoverOn start")
-          }, 
-          onComplete(){
-            that.setState(state => ({      
-              isPlaying: !state.isPlaying,
-              isHoverOn: !state.isHoverOn
-            }))
-            console.log(that.state.isPlaying, "hoverOn done")
-          }, 
-        },
-        easing: 'quart.out',
-      }).play();
-    }
+    console.log(this.state.isToggleOpen)
+    console.log("Hello")
   }
 
   HoverOff(element){
@@ -77,9 +53,11 @@ export default class Sidebar extends Component {
   render() {
     return (
       <>
-        <section className="card" ref={ref => (this.item = ref)}
-          onMouseEnter={()=>this.HoverOn(this.item)}
-          onMouseLeave={()=>this.HoverOff(this.item)}
+        <div id="sidebar">
+          <p>Hello</p>
+        </div>
+        <section className="Exit" ref={ref => (this.item = ref)}
+          onClick={(e)=>this.HoverOn(this.item)}
         />
         <p>Heasdf asdf asdf asdf asdf asfd as dfas</p>
       </>

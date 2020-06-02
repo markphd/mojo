@@ -51,14 +51,17 @@ export default class Sidebar extends Component {
   }
 
   render() {
+    const show = this.props.display;
+    console.log(show,"props")
     return (
       <>
         <div id="sidebar">
           <p>Hello</p>
         </div>
-        <section className="Exit" ref={ref => (this.item = ref)}
+        {this.props.display === false && <section className="Exit" ref={ref => (this.item = ref)}
           onClick={(e)=>this.HoverOn(this.item)}
-        />
+        />}
+
         <p>Heasdf asdf asdf asdf asdf asfd as dfas</p>
       </>
     )

@@ -19,12 +19,12 @@ export default class Sidebar extends Component {
       console.log("play")
       new mojs.Html({
         el: '#sidebar',
-        x: { 0: 400, duration: 600, easing: 'quart.inout'}
+        x: { 0: 400, duration: 300, easing: 'quart.inout'}
       }).play()
     } else {
       new mojs.Html({
         el: '#sidebar',
-        x: { 400: 0, duration: 600, easing: 'quart.inout'}
+        x: { 400: 0, duration: 300, easing: 'quart.inout'}
       }).play()
     }
 

@@ -9,38 +9,27 @@ export default class Sidebar extends Component {
       isHoverOn: false,
       isPlaying: false
     };
-    this.HoverOn = this.HoverOn.bind(this);
-    this.HoverOff = this.HoverOff.bind(this);
+    this.Player = this.Player.bind(this);
   }
 
-  HoverOn(element){
-    console.log(this.state.isToggleOpen)
-    console.log("Hello")
-  }
+  Player(e){
+    e.preventDefault();
 
-  HoverOff(element){
-    const that = this;
-    if(!this.state.isPlaying === true && !this.state.isHoverOn === false){
+    if(this.props.isOpen === false){
+      console.log("play")
       new mojs.Html({
-        el: element,
-        width: { 300: 200, duration: 200, 
-          onStart(){
-            that.setState(state => ({      
-              isPlaying: !state.isPlaying
-            }))
-            console.log(that.state.isPlaying, "hoverOff start")
-          }, 
-          onComplete(){
-            that.setState(state => ({      
-              isPlaying: !state.isPlaying,
-              isHoverOn: !state.isHoverOn
-            }))
-            console.log(that.state.isPlaying, "hoverOff done")
-          }, 
-        },
-        easing: 'quart.out',
-      }).play();
+        el: '#sidebar',
+        x: { 0: 400, duration: 600, easing: 'quart.inout'}
+      }).play()
+    } else {
+      new mojs.Html({
+        el: '#sidebar',
+        x: { 400: 0, duration: 600, easing: 'quart.inout'}
+      }).play()
     }
+
+    this.props.toggleSidebar();
+    console.log("Toggle playing...")
   }
 
   componentDidMount() {
@@ -51,18 +40,14 @@ export default class Sidebar extends Component {
   }
 
   render() {
-    const show = this.props.display;
-    console.log(show,"props")
     return (
       <>
         <div id="sidebar">
           <p>Hello</p>
         </div>
-        {this.props.display === false && <section className="Exit" ref={ref => (this.item = ref)}
-          onClick={(e)=>this.HoverOn(this.item)}
+        {this.props.isOpen === true && <section className="Exit" ref={ref => (this.item = ref)}
+          onClick={(e)=>this.Player(e)}
         />}
-
-        <p>Heasdf asdf asdf asdf asdf asfd as dfas</p>
       </>
     )
   }

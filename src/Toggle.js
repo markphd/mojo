@@ -11,22 +11,13 @@ export default class Toggle extends Component {
       posts: [],      
       comments: []    
     };
-
     this.Player = this.Player.bind(this);
   }
 
-
-
   Player(e){
-    // const htmlComponent = 
-    // });
     e.preventDefault();
 
-    this.setState(state => ({      
-      isToggleOpen: !state.isToggleOpen    
-    }));
-
-    if(!this.state.isToggleOpen === true){
+    if(this.props.isOpen === false){
       console.log("play")
       new mojs.Html({
         el: '#sidebar',
@@ -38,7 +29,9 @@ export default class Toggle extends Component {
         x: { 400: 0, duration: 600, easing: 'quart.inout'}
       }).play()
     }
-    console.log(this.state.isToggleOpen)
+
+    this.props.toggleSidebar();
+    console.log("Toggle playing...")
   }
 
   componentDidMount() {
@@ -50,7 +43,7 @@ export default class Toggle extends Component {
   render() {
     return (
       <>
-        <button className="Toggle" onClick={(e)=>this.Player(e)}>{ this.state.isToggleOpen ? 'X' : 'MENU'}</button>
+        <button className="Toggle" onClick={(e)=>this.Player(e)}>{ this.props.isOpen ? 'X' : 'MENU'}</button>
       </>
     )
   }

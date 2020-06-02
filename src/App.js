@@ -10,12 +10,12 @@ export default class App extends Component {
     super(props);
  
     this.state = {
-      isShow: true,
+      isSidebarOpen: false,
     };
   }
  
-  toggleShow = () => {
-    this.setState(state => ({ isShow: !state.isShow }));
+  toggleSidebar = () => {
+    this.setState(state => ({ isSidebarOpen: !state.isSidebarOpen }));
   };
 
   render() {
@@ -23,9 +23,9 @@ export default class App extends Component {
       <div>
         <div className="App">
           <>
-            <Toggle isShowing={this.toggleShow}/>
+            <Toggle isOpen={this.state.isSidebarOpen} toggleSidebar={this.toggleSidebar}/>
           </>
-          <Sidebar display={this.state.isShow}/>
+          <Sidebar isOpen={this.state.isSidebarOpen} toggleSidebar={this.toggleSidebar}/>
           <Card size={100}/>
           <Card size={40}/>
           <Card size={500}/>

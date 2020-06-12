@@ -14,7 +14,15 @@ export default class Sidebar extends Component {
 
   Player(e){
     e.preventDefault();
-
+    const FILTER_PROPERTIES = {
+      // list of custom props with defaults
+      blurFilter: 20,
+      opacityFilter: 25,
+      // function that will be called on each frame, you are responsible to render properties
+      draw (el, props) {
+        el.style['filter'] = `blur(${props.blurFilter}px) opacity(${props.opacityFilter}%)`;
+      }
+    }
     if(this.props.isOpen === false){
       console.log("play")
       new mojs.Html({
@@ -23,13 +31,16 @@ export default class Sidebar extends Component {
       }).play()
     } else {
       new mojs.Html({
+        customProperties: FILTER_PROPERTIES,
         el: '#sidebar',
-        x: { 400: 0, duration: 300, easing: 'quart.inout'}
+        x: { 400: 0, duration: 300, easing: 'quart.inout'},
+        blurFilter: {20: 200},
+        opacityFilter: {100:0}
       }).play()
     }
 
     this.props.toggleSidebar();
-    console.log("Toggle playing...")
+    console.log("Toggle playing Sidebar JS...")
   }
 
   componentDidMount() {
